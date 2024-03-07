@@ -1,34 +1,27 @@
 pipeline {
-    agent any
-    
-    stages {
-        stage('Build') {
-            steps {
-                script {
-                    def srn = PES2UG21CS932 // Replace 12345 with your actual SRN
-                    def cppFile = "file${srn - 1}.cpp"
-                    sh "g++ ${cppFile} -o output"
-                }
-            }
-        }
-        stage('Test') {
-            steps {
-                script {
-                    sh './output'
-                }
-            }
-        }
+  agent any
+  stages {
+    stage('Build') {
+      steps {
+        sh 'g++ -o task5 main/hello.cpp'
+        echo 'Build Successful!'
+      }
     }
-    
-    post {
-        always {
-            echo 'Pipeline finished'
-        }
-        success {
-            echo 'Pipeline succeeded'
-        }
-        failure {
-            echo 'Pipeline failed'
-        }
+    stage('Test') {
+      steps {
+        sh './task5'
+        echo 'Test Successful!'
+      }
     }
+    stage('Deploy') {
+      steps {
+        echo 'Successfully deployed!'
+      }
+    }
+  }
+  post {
+    failure {
+      echo 'Pipeline Failed!'
+    }
+  }
 }
