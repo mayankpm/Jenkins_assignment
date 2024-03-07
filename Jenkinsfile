@@ -4,28 +4,18 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Placeholder for build steps
-                def srn = YOUR_SRN // Replace YOUR_SRN with your actual SRN
-                def cppFile = "file${srn - 1}.cpp"
-                echo 'Building...'
-                sh 'echo "#include <iostream>\n\nint main() {\n    std::cout << \"Hello, World!\" << std::endl;\n    return 0;\n}" > hello.cpp'
+                script {
+                    def srn = PES2UG21CS932 // Replace 12345 with your actual SRN
+                    def cppFile = "file${srn - 1}.cpp"
+                    sh "g++ ${cppFile} -o output"
+                }
             }
         }
         stage('Test') {
             steps {
-                // Placeholder for test steps
-                echo 'Testing...'
-                sh 'g++ hello.cpp -o hello'
-                sh './hello'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                // Placeholder for deploy steps
-                echo 'Deploying...'
-                sh 'git add hello.cpp'
-                sh 'git commit -m "Add hello.cpp"'
-                sh 'git push origin main'
+                script {
+                    sh './output'
+                }
             }
         }
     }
